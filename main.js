@@ -409,7 +409,9 @@ class Esphome extends utils.Adapter {
 								case 'Switch':
 									await this.handleRegularState(`${host}`, entity, state, true );
 									break;
-
+								case 'Number':
+									await this.handleRegularState(`${host}`, entity, state, true );
+									break;
 								default:
 
 									if (!warnMessages[this.deviceInfo[host][entity.id].type]){
