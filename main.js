@@ -409,6 +409,7 @@ class Esphome extends utils.Adapter {
 								case 'Switch':
 									await this.handleRegularState(`${host}`, entity, state, true );
 									break;
+
 								case 'Number':
 									await this.handleRegularState(`${host}`, entity, state, true );
 									break;
@@ -1071,6 +1072,8 @@ class Esphome extends utils.Adapter {
 
 					this.log.debug(`Send Light values ${JSON.stringify(data)}`);
 					await client[deviceIP].connection.lightCommandService(data);
+				} else if (this.deviceInfo[deviceIP][device[4]].type === `Number`) {
+					await client[deviceIP].connection.numberCommandService({key: device[4], state: state.val});
 				}
 			}
 		} catch (e) {
