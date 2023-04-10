@@ -20,7 +20,7 @@
   "dependencies": {
     "@iobroker/adapter-core": "^2.5.1",
     "@sentry/node": "^5.30.0",
-    "esphome-native-api": "^1.0.9",
+    "esphome-native-api": "https://github.com/RoadXY/esphome-native-api.git",
     "nopy": "^0.2.7",
     "tree-kill": "^1.2.2"
   },
@@ -64,9 +64,6 @@
   },
   "python": {
     "execPath": [
-      "python3.8",
-      "python3.7",
-      "python3",
       "python"
     ],
     "path": [
