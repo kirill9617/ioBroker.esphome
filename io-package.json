@@ -228,11 +228,13 @@
         ]
     },
     "encryptedNative": [
-        "apiPass"
+        "apiPass",
+        "apiKey"
     ],
     "native": {
         "reconnectInterval": 30,
         "apiPass": "",
+        "apiKey": "",
         "autodiscovery": true,
         "configStates": false,
         "ESPHomeDashboardEnabled": true,

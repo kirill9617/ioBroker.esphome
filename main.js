@@ -15,7 +15,7 @@ const stateAttr = require(__dirname + '/lib/stateAttr.js'); // Load attribute li
 const disableSentry = false; // Ensure to set to true during development!
 const warnMessages = {}; // Store warn messages to avoid multiple sending to sentry
 const client = {};
-let reconnectTimer, reconnectInterval, apiPass, autodiscovery, dashboardProcess, createConfigStates;
+let reconnectTimer, reconnectInterval, apiPass, apiKey, autodiscovery, dashboardProcess, createConfigStates;
 
 // const exec = require('child_process').exec;
 const { fork, spawn } = require('child_process');
@@ -49,6 +49,7 @@ class Esphome extends utils.Adapter {
 		await this.setStateAsync('info.connection', {val: true, ack: true});
 		try {
 			apiPass = this.config.apiPass;
+			apiKey = this.config.apiKey;
 			autodiscovery =  this.config.autodiscovery;
 			reconnectInterval = this.config.reconnectInterval * 1000;
 			createConfigStates = this.config.configStates;
@@ -163,9 +164,10 @@ class Esphome extends utils.Adapter {
 						// Store new Device information to device array in memory
 						this.deviceInfo[message.address] = {
 							ip: message.address,
-							passWord: apiPass
+							passWord: apiPass,
+							key: apiKey
 						};
-						this.connectDevices(`${message.address}`,`${apiPass}`);
+						this.connectDevices(`${message.address}`,`${apiPass}`,`${apiKey}`);
 					}
 				} catch (e) {
 					this.log.error(`[deviceDiscovery handler] ${e}`);
@@ -178,7 +180,7 @@ class Esphome extends utils.Adapter {
 	}
 
 	// Handle Socket connections
-	connectDevices(host, pass){
+	connectDevices(host, pass, key){
 
 		try {
 			// const host = espDevices[device].ip;
@@ -186,7 +188,8 @@ class Esphome extends utils.Adapter {
 			// Prepare connection attributes
 			client[host] = new Client({
 				host: host,
-				password : pass,
+				encryptionKey : key,
+				password: pass,
 				clientInfo : `${this.host}`,
 				clearSession: true,
 				initializeDeviceInfo: true,
